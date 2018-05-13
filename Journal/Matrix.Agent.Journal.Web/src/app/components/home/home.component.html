@@ -1,0 +1,80 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <table width="100%">
+      <tr>
+        <td width="75%"><b>Application Trace | Debug | Audit Logs</b></td>
+        <td width="25%">
+          <div class="input-group">
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-blackboard"></span>
+            </span>
+            <select class="form-control" [(ngModel)]="application" (change)="applicationChanged()" #app>
+              <option *ngFor="let i of applications" [value]="i.Id">{{i.Name}}</option>
+            </select>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="panel-body">
+    <table width="100%">
+      <tr>
+        <td width="25%">
+          <div class="input-group">
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+            <input type="text" name="startDate" class="form-control text-center" [(ngModel)]="startDate" />
+            <span class="input-group-addon">UTC</span>
+          </div>
+        </td>
+        <td class="text-center">&nbsp;</td>
+        <td width="25%">
+          <div class="input-group">
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+            <input type="text" name="endDate" class="form-control text-center" [(ngModel)]="endDate" />
+            <span class="input-group-addon">UTC</span>
+          </div>
+        </td>
+        <td class="text-center">&nbsp;</td>
+        <td width="50%">
+          <div class="input-group">
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-search"></span>
+            </span>
+            <input type="text" name="searchTerm" class="form-control" [(ngModel)]="searchTerm" />
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" (click)="search()">Search</button>
+            </span>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <br />
+    <table width="100%" border="0" class="table table-bordered">
+      <thead>
+        <tr>
+          <td><b>Timestamp</b></td>
+          <td class="text-center"><b>Source</b></td>
+          <td class="text-center"><b>Level</b></td>
+          <td><b>Message</b></td>
+          <td class="text-center"><b>Event</b></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs">
+          <td>{{log.Timestamp}}</td>
+          <td class="text-center">{{log.Source}}</td>
+          <td class="text-center">{{log.Level}}</td>
+          <td>{{log.Message}}</td>
+          <td class="text-center">{{log.Event}}</td>
+        </tr>
+        <tr *ngIf="logs == null || logs.length === 0">
+          <td colspan="5" class="text-center"><span class="glyphicon glyphicon-equalizer"></span>&nbsp;no log entries found matching your search criteria  for the selected application</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

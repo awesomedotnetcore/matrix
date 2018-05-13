@@ -1,0 +1,60 @@
+<div class="container body-content" style="min-height: 547px;">
+  <br>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="/" class="navbar-brand">Matrix</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="disabled"><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="pull-right disabled"><a href="/settings"><span class="glyphicon glyphicon-film"></span> Settings</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+  <div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="container">
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a>{{metadata.copyright}}</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="pull-right"><a href="#" (click)="open(version)">Version {{metadata.version}}</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- Version Modal -->
+  <ng-template #version>
+    <div class="modal-body">
+      <table width="100%" class="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <td style="text-align:left"><b>Version</b></td>
+            <td style="text-align:left">{{metadata.version}}</td>
+          </tr>
+          <tr>
+            <td style="text-align:left"><b>Build</b></td>
+            <td style="text-align:left">{{metadata.build}}</td>
+          </tr>
+          <tr>
+            <td style="text-align:left"><b>Hash</b></td>
+            <td style="text-align:left"><small>{{metadata.hash}}</small></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-template>
+  <br>
+</div>

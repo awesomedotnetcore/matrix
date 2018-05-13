@@ -1,0 +1,30 @@
+#ignore thumbnails created by windows
+Thumbs.db
+#Ignore files build by Visual Studio
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.bak
+*.cache
+*.ilk
+[Bb]in
+[Dd]ebug*/
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+.vs/
+packages/
+*.nupkg
+*.bundle.js
+*.bundle.css
+glyphicons-halflings-regular.*.woff2
+glyphicons-halflings-regular.*.svg
+glyphicons-halflings-regular.*.ttf
+glyphicons-halflings-regular.*.eot
+glyphicons-halflings-regular.*.woff

@@ -1,0 +1,105 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <b>Applications</b>
+  </div>
+  <div class="panel-body">
+    <ng-template #createDialog>
+      <div class="modal-header">
+        <h4 class="modal-title">Application</h4>
+      </div>
+      <div class="modal-body">
+        <table width="100%">
+          <tr>
+            <td>
+              <b>Name</b>
+              <input type="text" class="form-control" placeholder="application name" [(ngModel)]="appName" />
+            </td>
+          </tr>
+          <tr><td>&nbsp;</td></tr>
+          <tr>
+            <td>
+              <b>Description</b>
+              <textarea class="form-control" placeholder="application description" [(ngModel)]="appDescription"></textarea>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="create()"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Save</button>
+      </div>
+    </ng-template>
+    <ng-template #editDialog>
+      <div class="modal-header">
+        <h4 class="modal-title">Application</h4>
+      </div>
+      <div class="modal-body">
+        <table width="100%">
+          <tr>
+            <td>
+              <b>Code</b>
+              <input type="text" class="form-control" placeholder="application code" readonly [ngModel]="appId" />
+            </td>
+          </tr>
+          <tr><td>&nbsp;</td></tr>
+          <tr>
+            <td>
+              <b>Name</b>
+              <input type="text" class="form-control" placeholder="application name" [(ngModel)]="appName" />
+            </td>
+          </tr>
+          <tr><td>&nbsp;</td></tr>
+          <tr>
+            <td>
+              <b>Description</b>
+              <textarea class="form-control" placeholder="application description" [(ngModel)]="appDescription"></textarea>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="update()"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Save</button>
+      </div>
+    </ng-template>
+    <table width="100%" border="0" class="table table-bordered">
+      <thead>
+        <tr>
+          <td class="text-center" width="10px">
+            <button type="button" class="btn btn-xs btn-default" (click)="open(createDialog)">
+              <span class="glyphicon glyphicon-file"></span>
+            </button>
+          </td>
+          <td class="text-center" width="320px"><b>Code</b></td>
+          <td class="text-center"><b>Name</b></td>
+          <td class="text-center"><b>Description</b></td>
+          <td class="text-center"><b>Created</b></td>
+          <td class="text-center"><b>Updated</b></td>
+          <td class="text-center" width="10px"><span class="glyphicon glyphicon-trash"></span></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let app of applications">
+          <td class="text-center">
+            <button type="button" class="btn btn-xs btn-default" (click)="openEditDialog(editDialog, app.Id, app.Name, app.Description)">
+              <span class="glyphicon glyphicon-info-sign"></span>
+            </button>
+          </td>
+          <td class="text-center">{{app.Id | uppercase}}</td>
+          <td class="text-center" contenteditable="true">{{app.Name}}</td>
+          <td class="text-center" contenteditable="true">{{app.Description}}</td>
+          <td class="text-center">{{app.Created | date: 'dd-MMM-yy'}}</td>
+          <td class="text-center">{{app.Updated | date: 'dd-MMM-yy'}}</td>
+          <td class="text-center">
+            <button type="button" class="btn btn-xs btn-danger" [disabled]="app.Deleted" (click)="delete(app.Id)">
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="applications == null || applications.length === 0">
+          <td colspan="7" class="text-center"><span class="glyphicon glyphicon-equalizer"></span>&nbsp;no applications found matching your search criteria  for the selected application</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
