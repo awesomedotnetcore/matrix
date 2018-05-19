@@ -1,9 +1,9 @@
 ﻿using Matrix.Agent.Business;
 using Matrix.Agent.Configuration;
 using Matrix.Agent.Jobs;
+using Matrix.Agent.Messages;
 using Matrix.Agent.Middlewares;
 using Matrix.Agent.Registry.Business;
-using Matrix.Messages;
 using Newtonsoft.Json;
 using NLog;
 using System;

@@ -1,7 +1,7 @@
 ﻿using Matrix.Agent.Business;
 using Matrix.Agent.Configuration;
+using Matrix.Agent.Messages;
 using Matrix.Agent.Middlewares;
-using Matrix.Messages;
 using NLog;
 using Quartz;
 using System;

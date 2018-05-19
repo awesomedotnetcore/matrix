@@ -1,4 +1,5 @@
 ﻿using NLog;
+using System;
 using System.Threading.Tasks;
 
 namespace Matrix.Agent.Middlewares
@@ -13,9 +14,9 @@ namespace Matrix.Agent.Middlewares
 
         public Middleware(IMiddlewareContext context, ILogger logger)
         {
-            Context = context ?? throw new System.ArgumentNullException(nameof(context));
+            Context = context ?? throw new ArgumentNullException(nameof(context));
 
-            Logger = logger ?? throw new System.ArgumentNullException(nameof(logger));
+            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public abstract Task Connect();

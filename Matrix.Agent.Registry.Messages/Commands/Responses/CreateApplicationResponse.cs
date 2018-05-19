@@ -1,4 +1,4 @@
-﻿using Matrix.Messages.Commands.Responses;
+﻿using Matrix.Agent.Messages.Commands.Responses;
 using System;
 
 namespace Matrix.Agent.Registry.Messages.Commands.Responses

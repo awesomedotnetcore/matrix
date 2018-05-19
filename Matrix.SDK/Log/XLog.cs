@@ -9,7 +9,7 @@ namespace Matrix.SDK.Log
     {
         private Guid Application { get; set; }
 
-        private IMiddleware Network { get; set; }
+        private IMiddleware Middleware { get; set; }
 
         private string Source { get; set; }
 
@@ -21,19 +21,13 @@ namespace Matrix.SDK.Log
 
             if (!string.IsNullOrEmpty(network))
             {
-                var context = new MiddlewareContext(endpoint);
-
-                if (network.Equals("RABBITMQ", StringComparison.CurrentCultureIgnoreCase))
-                    Network = new Rabbit(context);
-
-                if (network.Equals("MSMQ", StringComparison.CurrentCultureIgnoreCase))
-                    Network = new Msmq(context);
+                Middleware = new RabbitMiddleware(new MiddlewareContext(endpoint));
             }
         }
 
         public async Task Trace(string message)
         {
-            await Network.Send(new Messages.Log(Application)
+            await Middleware.Send(new Messages.Log(Application)
             {
                 Level = (int)LogLevel.Trace,
                 Message = message,
@@ -44,7 +38,7 @@ namespace Matrix.SDK.Log
 
         public async Task Info(string message)
         {
-            await Network.Send(new Messages.Log(Application)
+            await Middleware.Send(new Messages.Log(Application)
             {
                 Level = (int)LogLevel.Info,
                 Message = message,
@@ -55,7 +49,7 @@ namespace Matrix.SDK.Log
 
         public async Task Debug(string message)
         {
-            await Network.Send(new Messages.Log(Application)
+            await Middleware.Send(new Messages.Log(Application)
             {
                 Level = (int)LogLevel.Debug,
                 Message = message,
@@ -66,7 +60,7 @@ namespace Matrix.SDK.Log
 
         public async Task Warn(string message)
         {
-            await Network.Send(new Messages.Log(Application)
+            await Middleware.Send(new Messages.Log(Application)
             {
                 Level = (int)LogLevel.Warn,
                 Message = message,
@@ -77,7 +71,7 @@ namespace Matrix.SDK.Log
 
         public async Task Error(string message)
         {
-            await Network.Send(new Messages.Log(Application)
+            await Middleware.Send(new Messages.Log(Application)
             {
                 Level = (int)LogLevel.Error,
                 Message = message,
@@ -88,7 +82,7 @@ namespace Matrix.SDK.Log
 
         public async Task Error(Exception e)
         {
-            await Network.Send(new Messages.Log(Application)
+            await Middleware.Send(new Messages.Log(Application)
             {
                 Level = (int)LogLevel.Error,
                 Message = e.ToString(),
@@ -99,7 +93,7 @@ namespace Matrix.SDK.Log
 
         public async Task Error(Exception e, string message)
         {
-            await Network.Send(new Messages.Log(Application)
+            await Middleware.Send(new Messages.Log(Application)
             {
                 Level = (int)LogLevel.Error,
                 Message = $"{message} : {e.ToString()}",

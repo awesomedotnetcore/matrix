@@ -1,12 +1,11 @@
-﻿using Matrix.Messages;
+﻿using Matrix.Agent.Messages;
 using NLog;
-using Rebus.Handlers;
 using System;
 using System.Threading.Tasks;
 
 namespace Matrix.Health.Monitor
 {
-    public class Handler : IHandleMessages<HeartBeat>
+    public class Handler
     {
         private ILogger Log { get; set; }
 

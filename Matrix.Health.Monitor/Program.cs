@@ -1,7 +1,5 @@
 ﻿using EasyNetQ;
-using Matrix.Messages;
-using Rebus.Activation;
-using Rebus.Config;
+using Matrix.Agent.Messages;
 using System;
 using System.Configuration;
 using System.Diagnostics;
@@ -12,29 +10,11 @@ namespace Matrix.Health.Monitor
     {
         public static void Main(string[] args)
         {
-            if (ConfigurationManager.AppSettings["matrix.bus.type"].Equals("MSMQ", StringComparison.CurrentCultureIgnoreCase))
+            using (var bus = RabbitHutch.CreateBus(ConfigurationManager.AppSettings["matrix.bus.url"]))
             {
-                using (var o = new BuiltinHandlerActivator())
-                {
-                    o.Register(() => new Handler());
+                bus.SubscribeAsync<HeartBeat>(Process.GetCurrentProcess().ProcessName, new Handler().Handle);
 
-                    Configure.With(o)
-                        .Transport(i => i.UseMsmq(ConfigurationManager.AppSettings["matrix.bus.url"]))
-                        .Logging(i => i.None())
-                        .Start();
-
-                    Console.ReadLine();
-                }
-            }
-
-            if (ConfigurationManager.AppSettings["matrix.bus.type"].Equals("RABBITMQ", StringComparison.CurrentCultureIgnoreCase))
-            {
-                using (var bus = RabbitHutch.CreateBus(ConfigurationManager.AppSettings["matrix.bus.url"]))
-                {
-                    bus.SubscribeAsync<HeartBeat>(Process.GetCurrentProcess().ProcessName, new Handler().Handle);
-
-                    Console.ReadLine();
-                }
+                Console.ReadLine();
             }
         }
     }

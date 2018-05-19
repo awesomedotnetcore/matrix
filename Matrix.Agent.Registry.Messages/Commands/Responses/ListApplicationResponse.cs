@@ -1,5 +1,5 @@
-﻿using Matrix.Agent.Registry.Model;
-using Matrix.Messages.Commands.Responses;
+﻿using Matrix.Agent.Messages.Commands.Responses;
+using Matrix.Agent.Registry.Model;
 using System.Collections.Generic;
 
 namespace Matrix.Agent.Registry.Messages.Commands.Responses

@@ -55,11 +55,9 @@
     <Compile Include="IMiddlewareContext.cs" />
     <Compile Include="Middleware.cs" />
     <Compile Include="MiddlewareContext.cs" />
-    <Compile Include="MiddlewareType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Matrix.Agent.Middlewares.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -33,17 +33,17 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgentSettings.cs" />
+    <Compile Include="AgentType.cs" />
     <Compile Include="AppSettings.cs" />
     <Compile Include="BusSettings.cs" />
     <Compile Include="DatabaseSettings.cs" />
+    <Compile Include="IAgentConfiguration.cs" />
     <Compile Include="IAppConfiguration.cs" />
     <Compile Include="IBusConfiguration.cs" />
     <Compile Include="IConfiguration.cs" />
@@ -54,7 +54,6 @@
     <Compile Include="WebSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Matrix.Agent.Configuration.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

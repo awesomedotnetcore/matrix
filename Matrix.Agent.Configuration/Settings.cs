@@ -5,6 +5,8 @@ namespace Matrix.Agent.Configuration
 {
     public class Settings : IConfiguration
     {
+        public IAgentConfiguration Agent { get { return new AgentSettings(Name); } }
+
         public IAppConfiguration App { get { return new AppSettings(Name); } }
 
         public IBusConfiguration Bus { get { return new BusSettings(Name); } }

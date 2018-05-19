@@ -4,8 +4,7 @@ using Matrix.Agent.Database;
 using Matrix.Agent.Host;
 using Matrix.Agent.Jobs;
 using Matrix.Agent.Middlewares;
-using Matrix.Agent.Registry.Bus.MSMQ;
-using Matrix.Agent.Registry.Bus.RabbitMQ;
+using Matrix.Agent.Registry.Bus;
 using Matrix.Agent.Registry.Business;
 using Matrix.Agent.Registry.Database;
 using Matrix.Threading;
@@ -14,6 +13,7 @@ using NLog;
 using Quartz.Impl;
 using SimpleInjector;
 using System;
+using System.Linq;
 using Topshelf;
 using Topshelf.Nancy;
 using Topshelf.SimpleInjector;
@@ -27,6 +27,7 @@ namespace Matrix.Agent.Registry
             try
             {
                 var config = new Settings("registry");
+
                 var container = new Container();
                 container.RegisterSingleton<IConfiguration>(() => { return config; });
                 container.RegisterSingleton<ILogger>(() => { return LogManager.GetLogger(typeof(Program).Namespace); });
@@ -37,46 +38,23 @@ namespace Matrix.Agent.Registry
                     return scheduler;
                 });
 
-                if (config.Bus.Enabled)
-                {
-                    container.RegisterSingleton<IMiddlewareContext>(() => new MiddlewareContext(config.Bus.Url));
-
-                    if (config.Bus.Type.Equals(MiddlewareType.RabbitMQ.ToString(), StringComparison.CurrentCultureIgnoreCase))
-                        container.RegisterSingleton<IMiddleware, RabbitMiddleware>();
-
-                    if (config.Bus.Type.Equals(MiddlewareType.MSMQ.ToString(), StringComparison.CurrentCultureIgnoreCase))
-                        container.RegisterSingleton<IMiddleware, MsmqMiddleware>();
-                }
-
-                if (config.Database.Enabled)
-                {
-                    container.RegisterSingleton<IDatabaseContext>(() => new DatabaseContext(config.Database.Url));
-                    container.RegisterSingleton<IHealthRepository, HealthRepository>();
-                    container.RegisterSingleton<IApplicationRepository, ApplicationRepository>();
-
-                    //if (config.Database.Type.Equals(DatabaseType.SqlServer.ToString(), StringComparison.CurrentCultureIgnoreCase))
-                    //{
-                    //    container.RegisterSingleton<IHealthRepository, Database.SqlServer.HealthRepository>();
-                    //    container.RegisterSingleton<IApplicationRepository, Database.SqlServer.ApplicationRepository>();
-                    //}
-
-                    //if (config.Database.Type.Equals(DatabaseType.Sqlite.ToString(), StringComparison.CurrentCultureIgnoreCase))
-                    //{
-                    //    container.RegisterSingleton<IHealthRepository, Database.Embedded.HealthRepository>();
-                    //    container.RegisterSingleton<IApplicationRepository, Database.Embedded.ApplicationRepository>();
-                    //}
-                }
-
+                container.RegisterSingleton<IMiddlewareContext>(() => new MiddlewareContext(config.Bus.Url));
+                container.RegisterSingleton<IMiddleware, RabbitMiddleware>();
+                container.RegisterSingleton<IDatabaseContext>(() => new DatabaseContext(config.Database.Url));
+                container.RegisterSingleton<IHealthRepository, HealthRepository>();
+                container.RegisterSingleton<IApplicationRepository, ApplicationRepository>();
                 container.RegisterSingleton<IServiceContext, ServiceContext>();
                 container.RegisterSingleton<IHealthService, HealthService>();
                 container.RegisterSingleton<IRegistryService, RegistryService>();
                 container.RegisterSingleton<Pulse>();
+                container.RegisterSingleton<IHost, Host>();
 
                 if (config.Web.Enabled)
                     container.RegisterSingleton<INancyBootstrapper, Bootstrapper>();
 
-                container.RegisterSingleton<IHost, Host>();
                 container.Verify();
+
+                Bootstrap(container);
 
                 HostFactory.Run(host =>
                 {
@@ -110,6 +88,19 @@ namespace Matrix.Agent.Registry
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+            }
+        }
+
+        private static void Bootstrap(Container container)
+        {
+            var server = container.GetInstance<IRegistryService>();
+
+            if (server != null)
+            {
+                var matrix = Async.Execute(() => server.GetApplications()).FirstOrDefault(i => i.Name.Equals("Matrix"));
+
+                if (matrix == null)
+                    Async.Execute(() => server.Register("Matrix", "Matrix Platform"));
             }
         }
     }

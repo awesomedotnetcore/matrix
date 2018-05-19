@@ -1,5 +1,4 @@
 ﻿using Matrix.Agent.Business;
-using Matrix.Agent.Journal.Business;
 using Matrix.Agent.Journal.Database;
 using Matrix.Agent.Journal.Model;
 using NLog;

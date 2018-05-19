@@ -3,8 +3,7 @@ using Matrix.Agent.Configuration;
 using Matrix.Agent.Database;
 using Matrix.Agent.Host;
 using Matrix.Agent.Jobs;
-using Matrix.Agent.Journal.Bus.MSMQ;
-using Matrix.Agent.Journal.Bus.RabbitMQ;
+using Matrix.Agent.Journal.Bus;
 using Matrix.Agent.Journal.Business;
 using Matrix.Agent.Journal.Database;
 using Matrix.Agent.Middlewares;
@@ -40,12 +39,7 @@ namespace Matrix.Agent.Journal
                 if (config.Bus.Enabled)
                 {
                     container.RegisterSingleton<IMiddlewareContext>(() => new MiddlewareContext(config.Bus.Url));
-
-                    if (config.Bus.Type.Equals(MiddlewareType.RabbitMQ.ToString(), StringComparison.CurrentCultureIgnoreCase))
-                        container.RegisterSingleton<IMiddleware, RabbitMiddleware>();
-
-                    if (config.Bus.Type.Equals(MiddlewareType.MSMQ.ToString(), StringComparison.CurrentCultureIgnoreCase))
-                        container.RegisterSingleton<IMiddleware, MsmqMiddleware>();
+                    container.RegisterSingleton<IMiddleware, RabbitMiddleware>();
                 }
 
                 if (config.Database.Enabled)

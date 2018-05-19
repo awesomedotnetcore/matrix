@@ -19,7 +19,7 @@ namespace Matrix.Agent.Journal.Database
         {
             var result = new HealthTestResult();
 
-            Logger.Trace("BEGIN | Matrix.Server.Log.Database.SqlServer.HealthRepository.HealthCheck");
+            Logger.Trace("BEGIN | Matrix.Server.Log.Database.HealthRepository.Test");
 
             DbConnection connection = null;
 
@@ -37,14 +37,14 @@ namespace Matrix.Agent.Journal.Database
             }
             catch (Exception e)
             {
-                Logger.Trace("ERROR | Matrix.Server.Log.Database.SqlServer.HealthRepository.HealthCheck");
+                Logger.Trace("ERROR | Matrix.Server.Log.Database.HealthRepository.Test");
                 Logger.Error(e);
 
                 result.Status = false;
                 result.Text = e.Message;
             }
 
-            Logger.Trace("END | Matrix.Server.Log.Database.SqlServer.ApplicationRepository.CreateApplication");
+            Logger.Trace("END | Matrix.Server.Log.Database.ApplicationRepository.Test");
 
             return result;
         }
