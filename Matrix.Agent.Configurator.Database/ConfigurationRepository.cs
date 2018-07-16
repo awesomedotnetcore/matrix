@@ -117,10 +117,11 @@ namespace Matrix.Agent.Configurator.Database
                 {
                     await connection.OpenAsync();
 
-                    var inserted = await connection.ExecuteAsync("INSERT INTO [Configuration] ([Id], [Enabled], [Key], [Value], [Created], [Updated], [Deleted]) VALUES (@id, @enabled, @key, @value, @created, @updated, @deleted)", new
+                    var inserted = await connection.ExecuteAsync("INSERT INTO [Configuration] ([Id], [Enabled], [Application], [Key], [Value], [Created], [Updated], [Deleted]) VALUES (@id, @enabled, @application, @key, @value, @created, @updated, @deleted)", new
                     {
                         @id = Guid.NewGuid(),
                         @enabled = true,
+                        @application = application,
                         @key = key,
                         @value = value,
                         @created = DateTime.Now,
@@ -162,6 +163,7 @@ namespace Matrix.Agent.Configurator.Database
                     {
                         @application = application,
                         @key = key,
+                        @value = value,
                         @updated = DateTime.Now
                     }) > 0;
 

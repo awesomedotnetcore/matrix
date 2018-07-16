@@ -1,7 +1,9 @@
 ﻿using EasyNetQ;
 using Matrix.Agent.Configurator.Bus.Handlers;
+using Matrix.Agent.Configurator.Bus.Responders;
 using Matrix.Agent.Configurator.Business;
 using Matrix.Agent.Configurator.Messages.Commands.Requests;
+using Matrix.Agent.Configurator.Messages.Commands.Responses;
 using Matrix.Agent.Messages;
 using Matrix.Agent.Middlewares;
 using NLog;
@@ -33,9 +35,12 @@ namespace Matrix.Agent.Configurator.Bus
             await Task.Run(() =>
             {
                 Bus = RabbitHutch.CreateBus(Context.Connection);
-
                 Bus.SubscribeAsync<HeartBeat>(Process.GetCurrentProcess().ProcessName, new HeartBeatHandler(Logger, Application).Handle);
-                Bus.SubscribeAsync<GetConfigurationRequest>(Process.GetCurrentProcess().ProcessName, new ConfigurationHandler(Logger, Server).Handle);
+                Bus.RespondAsync<GetSettingsRequest, GetSettingsResponse>(new ConfigurationResponder(Logger, Server).GetSettings);
+                Bus.RespondAsync<GetConfigurationRequest, GetConfigurationResponse>(new ConfigurationResponder(Logger, Server).GetConfiguration);
+                Bus.RespondAsync<CreateConfigurationRequest, CreateConfigurationResponse>(new ConfigurationResponder(Logger, Server).CreateConfiguration);
+                Bus.RespondAsync<UpdateConfigurationRequest, UpdateConfigurationResponse>(new ConfigurationResponder(Logger, Server).UpdateConfiguration);
+                Bus.RespondAsync<DeleteConfigurationRequest, DeleteConfigurationResponse>(new ConfigurationResponder(Logger, Server).DeleteConfiguration);
             });
         }
 

@@ -1,7 +1,10 @@
 ﻿using EasyNetQ;
 using Matrix.Agent.Journal.Bus.Handlers;
+using Matrix.Agent.Journal.Bus.Responders;
 using Matrix.Agent.Journal.Business;
 using Matrix.Agent.Journal.Messages;
+using Matrix.Agent.Journal.Messages.Commands.Requests;
+using Matrix.Agent.Journal.Messages.Commands.Responses;
 using Matrix.Agent.Messages;
 using Matrix.Agent.Middlewares;
 using NLog;
@@ -36,6 +39,8 @@ namespace Matrix.Agent.Journal.Bus
 
                 Bus.SubscribeAsync<HeartBeat>(Process.GetCurrentProcess().ProcessName, new HeartBeatHandler(Logger, Application).Handle);
                 Bus.SubscribeAsync<Log>(Process.GetCurrentProcess().ProcessName, new LogHandler(Logger, Server).Handle);
+                Bus.RespondAsync<GetLogsRequest, GetLogsResponse>(new LogResponder(Logger, Server).GetLogs);
+                Bus.RespondAsync<SearchLogsRequest, SearchLogsResponse>(new LogResponder(Logger, Server).SearchLogs);
             });
         }
 

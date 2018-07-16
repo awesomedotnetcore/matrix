@@ -96,7 +96,7 @@ namespace Matrix.Security.Cryptography
                 var sb = new StringBuilder(data.Length);
 
                 for (i = 0; i < data.Length; i++)
-                    sb.Append(data[i].ToString("X2"));
+                    sb.Append(data[i].ToString("x2"));
 
                 result = sb.ToString();
             }

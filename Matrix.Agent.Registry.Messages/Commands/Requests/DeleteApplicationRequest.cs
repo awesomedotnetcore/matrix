@@ -5,6 +5,6 @@ namespace Matrix.Agent.Registry.Messages.Commands.Requests
 {
     public class DeleteApplicationRequest : Request
     {
-        public Guid ApplicationId { get; set; }
+        public Guid Id { get; set; }
     }
 }

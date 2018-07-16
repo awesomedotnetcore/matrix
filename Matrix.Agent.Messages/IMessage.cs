@@ -6,7 +6,7 @@ namespace Matrix.Agent.Messages
 {
     public interface IMessage
     {
-        Guid Id { get; }
+        Guid MessageId { get; }
 
         Guid Application { get; }
 

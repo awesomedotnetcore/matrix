@@ -7,7 +7,7 @@ using System.Data.SQLite;
 
 namespace Matrix.Agent.Database
 {
-    public class Repository : IRepository
+    public abstract class Repository : IRepository
     {
         protected IDatabaseContext Context { get; private set; }
 

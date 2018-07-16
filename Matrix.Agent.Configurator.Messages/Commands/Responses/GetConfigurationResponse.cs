@@ -10,11 +10,17 @@ namespace Matrix.Agent.Configurator.Messages.Commands.Responses
         public string Value { get; set; }
 
         public GetConfigurationResponse()
+            : base(Guid.Empty)
         {
         }
 
-        public GetConfigurationResponse(Guid app)
-            : base(app)
+        public GetConfigurationResponse(Guid requestId)
+            : base(requestId)
+        {
+        }
+
+        public GetConfigurationResponse(Guid requestId, Guid app)
+            : base(requestId, app)
         {
         }
     }

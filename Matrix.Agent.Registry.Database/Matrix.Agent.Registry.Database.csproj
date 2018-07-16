@@ -42,7 +42,7 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.5.4\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.5.6\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -91,7 +91,7 @@
       <Name>Matrix.Agent.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\Matrix.Agent.Registry.Model\Matrix.Agent.Registry.Model.csproj">
-      <Project>{eb3f7795-e241-4144-93cf-7e29cadeff51}</Project>
+      <Project>{b8eedbd9-8409-41a1-9b80-f4387971c099}</Project>
       <Name>Matrix.Agent.Registry.Model</Name>
     </ProjectReference>
   </ItemGroup>

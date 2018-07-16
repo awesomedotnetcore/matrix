@@ -7,7 +7,7 @@
     <ProjectGuid>{FA10574A-13E0-4554-9260-6827B77614EB}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Matrix.CLI</RootNamespace>
-    <AssemblyName>Matrix</AssemblyName>
+    <AssemblyName>mx</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,21 +32,124 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EasyNetQ, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EasyNetQ.3.0.0\lib\net451\EasyNetQ.dll</HintPath>
+    </Reference>
+    <Reference Include="EasyNetQ.Management.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EasyNetQ.Management.Client.1.0.0\lib\net452\EasyNetQ.Management.Client.dll</HintPath>
+    </Reference>
     <Reference Include="GoCommando, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GoCommando.0.93.0\lib\NET45\GoCommando.dll</HintPath>
     </Reference>
+    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Diagnostics.Tracing.EventSource, Version=2.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.2.0.1\lib\net461\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.CommandLineUtils, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.CommandLineUtils.1.1.1\lib\net451\Microsoft.Extensions.CommandLineUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.6\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client, Version=5.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+      <HintPath>..\packages\RabbitMQ.Client.5.0.1\lib\net451\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Configuration\RegisterConfigurationCommands.cs" />
+    <Compile Include="Commands\Directory\GetUserCommand.cs" />
+    <Compile Include="Commands\Directory\RegisterUserRoleCommands.cs" />
+    <Compile Include="Commands\Directory\RegisterUserGroupCommands.cs" />
+    <Compile Include="Commands\Directory\RegisterDirectoryCommands.cs" />
+    <Compile Include="Commands\Directory\UpdateUserCommand.cs" />
+    <Compile Include="Commands\Directory\CreateUserCommand.cs" />
+    <Compile Include="Commands\Directory\DeleteUserCommand.cs" />
+    <Compile Include="Commands\Directory\DeleteUserGroupCommand.cs" />
+    <Compile Include="Commands\Directory\UpdateUserGroupCommand.cs" />
+    <Compile Include="Commands\Directory\DeleteUserRoleCommand.cs" />
+    <Compile Include="Commands\Directory\UpdateUserRoleCommand.cs" />
+    <Compile Include="Commands\Directory\CreateUserRoleCommand.cs" />
+    <Compile Include="Commands\Directory\CreateUserGroupCommand.cs" />
+    <Compile Include="Commands\Directory\ListUserRoleCommand.cs" />
+    <Compile Include="Commands\Directory\ListUserGroupCommand.cs" />
+    <Compile Include="Commands\Directory\ListUserCommand.cs" />
+    <Compile Include="Commands\General\CleanCommand.cs" />
+    <Compile Include="Commands\General\GetErrorCommand.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\Configuration\DeleteConfigurationCommand.cs" />
+    <Compile Include="Commands\Configuration\UpdateConfigurationCommand.cs" />
+    <Compile Include="Commands\Configuration\CreateConfigurationCommand.cs" />
+    <Compile Include="Commands\Configuration\GetConfigurationCommand.cs" />
+    <Compile Include="Commands\Configuration\GetSettingsCommand.cs" />
+    <Compile Include="Commands\General\RegisterGeneralCommands.cs" />
+    <Compile Include="Commands\Journal\SearchLogsCommand.cs" />
+    <Compile Include="Commands\Journal\GetLogsCommand.cs" />
+    <Compile Include="Commands\Journal\RegisterLogCommands.cs" />
+    <Compile Include="Commands\Registry\DeleteApplicationCommand.cs" />
+    <Compile Include="Commands\Registry\GetApplicationByIdCommand.cs" />
+    <Compile Include="Commands\Registry\RegisterApplicationCommands.cs" />
+    <Compile Include="Commands\Registry\UpdateApplicationCommand.cs" />
+    <Compile Include="Commands\Registry\CreateApplicationCommand.cs" />
+    <Compile Include="Commands\Registry\ListApplicationCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Matrix.Agent.Configurator.Messages\Matrix.Agent.Configurator.Messages.csproj">
+      <Project>{53B20EB6-DB21-4A7B-A8F5-A6A6EA1AF723}</Project>
+      <Name>Matrix.Agent.Configurator.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Directory.Messages\Matrix.Agent.Directory.Messages.csproj">
+      <Project>{C7EB066A-5E61-4B68-A567-0527F8553198}</Project>
+      <Name>Matrix.Agent.Directory.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Journal.Messages\Matrix.Agent.Journal.Messages.csproj">
+      <Project>{E49685CD-E0B7-40D7-BA6E-2090E7A023C6}</Project>
+      <Name>Matrix.Agent.Journal.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Messages\Matrix.Agent.Messages.csproj">
+      <Project>{3BE9ED63-8BEA-4E17-A627-A6885D3142CF}</Project>
+      <Name>Matrix.Agent.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Registry.Messages\Matrix.Agent.Registry.Messages.csproj">
+      <Project>{403E1779-DA5A-4E95-8147-2F477E690870}</Project>
+      <Name>Matrix.Agent.Registry.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Registry.Model\Matrix.Agent.Registry.Model.csproj">
+      <Project>{B8EEDBD9-8409-41A1-9B80-F4387971C099}</Project>
+      <Name>Matrix.Agent.Registry.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix\Matrix.csproj">
+      <Project>{417eaf1b-53ec-4d8a-ae92-6370c3de0ac7}</Project>
+      <Name>Matrix</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

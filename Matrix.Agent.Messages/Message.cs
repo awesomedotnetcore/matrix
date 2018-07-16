@@ -9,7 +9,7 @@ namespace Matrix.Agent.Messages
 {
     public class Message : IMessage
     {
-        public Guid Id { get; set; }
+        public Guid MessageId { get; set; }
 
         public Guid Application { get; set; }
 
@@ -34,7 +34,7 @@ namespace Matrix.Agent.Messages
             Properties = new SerializableDictionary<string, string>();
             Tags = new List<string>();
 
-            Id = Guid.NewGuid();
+            MessageId = Guid.NewGuid();
             Timestamp = DateTime.Now;
             Application = Guid.Empty;
 
@@ -56,7 +56,7 @@ namespace Matrix.Agent.Messages
             Properties = new SerializableDictionary<string, string>();
             Tags = new List<string>();
 
-            Id = Guid.NewGuid();
+            MessageId = Guid.NewGuid();
             Timestamp = DateTime.Now;
             Application = app;
 

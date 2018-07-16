@@ -34,7 +34,15 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Requests\DeleteConfigurationRequest.cs" />
+    <Compile Include="Commands\Requests\UpdateConfigurationRequest.cs" />
+    <Compile Include="Commands\Requests\CreateConfigurationRequest.cs" />
+    <Compile Include="Commands\Requests\GetSettingsRequest.cs" />
     <Compile Include="Commands\Requests\GetConfigurationRequest.cs" />
+    <Compile Include="Commands\Responses\DeleteConfigurationResponse.cs" />
+    <Compile Include="Commands\Responses\UpdateConfigurationResponse.cs" />
+    <Compile Include="Commands\Responses\CreateConfigurationResponse.cs" />
+    <Compile Include="Commands\Responses\GetSettingsResponse.cs" />
     <Compile Include="Commands\Responses\GetConfigurationResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -43,6 +51,9 @@
       <Project>{3be9ed63-8bea-4e17-a627-a6885d3142cf}</Project>
       <Name>Matrix.Agent.Messages</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

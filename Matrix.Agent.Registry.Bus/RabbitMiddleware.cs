@@ -2,6 +2,7 @@
 using Matrix.Agent.Messages;
 using Matrix.Agent.Middlewares;
 using Matrix.Agent.Registry.Bus.Handlers;
+using Matrix.Agent.Registry.Bus.Responders;
 using Matrix.Agent.Registry.Business;
 using Matrix.Agent.Registry.Messages.Commands.Requests;
 using Matrix.Agent.Registry.Messages.Commands.Responses;
@@ -32,10 +33,13 @@ namespace Matrix.Agent.Registry.Bus
             {
                 Bus = RabbitHutch.CreateBus(Context.Connection);
                 Bus.SubscribeAsync<HeartBeat>(Process.GetCurrentProcess().ProcessName, new HeartBeatHandler(Logger).Execute);
-                Bus.RespondAsync<ListApplicationRequest, ListApplicationResponse>(new ListApplicationHandler(Logger, Server).Execute);
-                Bus.RespondAsync<RegisterApplicationRequest, CreateApplicationResponse>(new RegisterApplicationHandler(Logger, Server).Execute);
-                Bus.RespondAsync<UpdateApplicationRequest, UpdateApplicationResponse>(new UpdateApplicationHandler(Logger, Server).Execute);
-                Bus.RespondAsync<DeleteApplicationRequest, DeleteApplicationResponse>(new DeleteApplicationHandler(Logger, Server).Execute);
+
+                var application = new ApplicationResponder(Logger, Server);
+                Bus.RespondAsync<ListApplicationRequest, ListApplicationResponse>(application.GetApplications);
+                Bus.RespondAsync<GetApplicationByIdRequest, GetApplicationByIdResponse>(application.GetApplicationById);
+                Bus.RespondAsync<RegisterApplicationRequest, CreateApplicationResponse>(application.Register);
+                Bus.RespondAsync<UpdateApplicationRequest, UpdateApplicationResponse>(application.Update);
+                Bus.RespondAsync<DeleteApplicationRequest, DeleteApplicationResponse>(application.Delete);
             });
         }
 

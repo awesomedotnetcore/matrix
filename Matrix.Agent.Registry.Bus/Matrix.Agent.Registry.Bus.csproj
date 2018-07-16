@@ -30,14 +30,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EasyNetQ, Version=2.3.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EasyNetQ.2.3.3\lib\net451\EasyNetQ.dll</HintPath>
+    <Reference Include="EasyNetQ, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EasyNetQ.3.0.0\lib\net451\EasyNetQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Diagnostics.Tracing.EventSource, Version=2.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.2.0.1\lib\net461\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.5.4\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.5.6\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="RabbitMQ.Client, Version=5.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
       <HintPath>..\packages\RabbitMQ.Client.5.0.1\lib\net451\RabbitMQ.Client.dll</HintPath>
@@ -56,10 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Handlers\ListApplicationHandler.cs" />
-    <Compile Include="Handlers\DeleteApplicationHandler.cs" />
-    <Compile Include="Handlers\UpdateApplicationHandler.cs" />
-    <Compile Include="Handlers\RegisterApplicationHandler.cs" />
+    <Compile Include="Responders\ApplicationResponder.cs" />
     <Compile Include="Handlers\HeartBeatHandler.cs" />
     <Compile Include="RabbitMiddleware.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,17 +81,17 @@
       <Project>{53dad363-d195-4242-a3f6-bcc5ccad3412}</Project>
       <Name>Matrix.Agent.Registry.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Matrix.Agent.Registry.Messages\Matrix.Agent.Registry.Messages.csproj">
-      <Project>{4df8298c-77eb-4859-8fc2-1e0f41ba77b2}</Project>
-      <Name>Matrix.Agent.Registry.Messages</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Matrix.Agent.Registry.Model\Matrix.Agent.Registry.Model.csproj">
-      <Project>{eb3f7795-e241-4144-93cf-7e29cadeff51}</Project>
-      <Name>Matrix.Agent.Registry.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Matrix.Agent.Messages\Matrix.Agent.Messages.csproj">
       <Project>{3be9ed63-8bea-4e17-a627-a6885d3142cf}</Project>
       <Name>Matrix.Agent.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Registry.Messages\Matrix.Agent.Registry.Messages.csproj">
+      <Project>{403E1779-DA5A-4E95-8147-2F477E690870}</Project>
+      <Name>Matrix.Agent.Registry.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Registry.Model\Matrix.Agent.Registry.Model.csproj">
+      <Project>{B8EEDBD9-8409-41A1-9B80-F4387971C099}</Project>
+      <Name>Matrix.Agent.Registry.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

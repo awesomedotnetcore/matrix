@@ -5,6 +5,21 @@ namespace Matrix.Agent.Registry.Messages.Commands.Responses
 {
     public class CreateApplicationResponse : Response
     {
-        public Guid ApplicationId { get; set; }
+        public Guid Id { get; set; }
+
+        public CreateApplicationResponse()
+            : base(Guid.Empty)
+        {
+        }
+
+        public CreateApplicationResponse(Guid requestId)
+           : base(requestId)
+        {
+        }
+
+        public CreateApplicationResponse(Guid requestId, Guid app)
+            : base(requestId, app)
+        {
+        }
     }
 }

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using EasyNetQ;
+using System;
 using System.Collections.Generic;
 using System.Net;
 
 namespace Matrix.Agent.Messages
 {
+    [Queue("HeartBeat", ExchangeName = "HeartBeat")]
     public class HeartBeat : Message
     {
         public string Hostname { get; set; }

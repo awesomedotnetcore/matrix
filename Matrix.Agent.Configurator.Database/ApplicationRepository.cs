@@ -31,7 +31,7 @@ namespace Matrix.Agent.Configurator.Database
                 {
                     await connection.OpenAsync();
 
-                    dynamic entity = await connection.QueryAsync<dynamic>("SELECT [Id], [Enabled], [Name], [Description], [Created], [Updated], [Deleted] FROM [Application] WHERE [Deleted] = @deleted", new { @deleted = false });
+                    dynamic entity = await connection.QueryAsync<dynamic>("SELECT [Id], [Enabled], [Name], [Description], [Created], [Updated], [Deleted] FROM [Applications] WHERE [Deleted] = @deleted", new { @deleted = false });
 
                     foreach (var i in entity)
                     {
@@ -75,7 +75,7 @@ namespace Matrix.Agent.Configurator.Database
                 {
                     await connection.OpenAsync();
 
-                    dynamic entity = await connection.QueryFirstOrDefaultAsync<dynamic>("SELECT [Id], [Enabled], [Name], [Description], [Created], [Updated], [Deleted] FROM [Application] WHERE [Id] = @id AND [Deleted] = @deleted", new { @id = id, @deleted = false });
+                    dynamic entity = await connection.QueryFirstOrDefaultAsync<dynamic>("SELECT [Id], [Enabled], [Name], [Description], [Created], [Updated], [Deleted] FROM [Applications] WHERE [Id] = @id AND [Deleted] = @deleted", new { @id = id, @deleted = false });
 
                     result.Id = Parse.Guid(entity.Id);
                     result.Enabled = Parse.Bool(entity.Enabled);
@@ -112,7 +112,7 @@ namespace Matrix.Agent.Configurator.Database
                 {
                     await connection.OpenAsync();
 
-                    result = await connection.QueryFirstOrDefaultAsync<int>("SELECT COUNT([Id]) FROM [Application] WHERE [Id] = @id", new { @id = id }) > 0;
+                    result = await connection.QueryFirstOrDefaultAsync<int>("SELECT COUNT([Id]) FROM [Applications] WHERE [Id] = @id", new { @id = id }) > 0;
 
                     connection.Close();
                 }
@@ -142,7 +142,7 @@ namespace Matrix.Agent.Configurator.Database
                 {
                     await connection.OpenAsync();
 
-                    var inserted = await connection.ExecuteAsync("INSERT INTO [Application] ([Id], [Enabled], [Name], [Description], [Created], [Updated], [Deleted]) VALUES (@id, @enabled, @name, @description, @created, @updated, @deleted)", new
+                    var inserted = await connection.ExecuteAsync("INSERT INTO [Applications] ([Id], [Enabled], [Name], [Description], [Created], [Updated], [Deleted]) VALUES (@id, @enabled, @name, @description, @created, @updated, @deleted)", new
                     {
                         @id = id,
                         @enabled = true,
@@ -183,7 +183,7 @@ namespace Matrix.Agent.Configurator.Database
                 {
                     await connection.OpenAsync();
 
-                    result = await connection.ExecuteAsync("UPDATE [Application] SET [Name] = @name, [Description] = @description, [Updated] = @updated WHERE [Id] = @id", new
+                    result = await connection.ExecuteAsync("UPDATE [Applications] SET [Name] = @name, [Description] = @description, [Updated] = @updated WHERE [Id] = @id", new
                     {
                         @id = id,
                         @enabled = true,
@@ -220,7 +220,7 @@ namespace Matrix.Agent.Configurator.Database
                 {
                     await connection.OpenAsync();
 
-                    result = await connection.ExecuteAsync("UPDATE [Application] SET [Deleted] = @deleted, [Updated] = @updated WHERE [Id] = @id", new
+                    result = await connection.ExecuteAsync("UPDATE [Applications] SET [Deleted] = @deleted, [Updated] = @updated WHERE [Id] = @id", new
                     {
                         @id = id,
                         @deleted = true,

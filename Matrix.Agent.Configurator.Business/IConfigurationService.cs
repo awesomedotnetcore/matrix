@@ -11,6 +11,8 @@ namespace Matrix.Agent.Configurator.Business
 
         Task<string> GetSettings(Guid application, string key);
 
+        Task<bool> CreateSettings(Guid application, string key, string value);
+
         Task<bool> UpdateSettings(Guid application, string key, string value);
 
         Task<bool> DeleteSettings(Guid application, string key);

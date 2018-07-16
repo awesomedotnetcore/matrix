@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CBD9B22D-9D9B-438C-A2FD-50F6A3ACD4C8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Matrix.Agent.Directory.Database.Embedded</RootNamespace>
+    <AssemblyName>Matrix.Agent.Directory.Database.Embedded</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LiteDB, Version=4.1.3.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteDB.4.1.3\lib\net40\LiteDB.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.6\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserGroupRepository.cs" />
+    <Compile Include="UserRepository.cs" />
+    <Compile Include="UserRoleRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Matrix.Agent.Configuration\Matrix.Agent.Configuration.csproj">
+      <Project>{28523da5-e3ec-498a-bf0f-619a6432be9c}</Project>
+      <Name>Matrix.Agent.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Database.Embedded\Matrix.Agent.Database.Embedded.csproj">
+      <Project>{182FFDF3-C665-4781-8FC6-3FB5024C788F}</Project>
+      <Name>Matrix.Agent.Database.Embedded</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Database\Matrix.Agent.Database.csproj">
+      <Project>{36036F83-D845-4DFB-AC67-3D5DD0A3230F}</Project>
+      <Name>Matrix.Agent.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Directory.Database\Matrix.Agent.Directory.Database.csproj">
+      <Project>{11234ba1-55f0-4caf-823f-260bcdeb2b1e}</Project>
+      <Name>Matrix.Agent.Directory.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Directory.Model\Matrix.Agent.Directory.Model.csproj">
+      <Project>{6B6D5715-1048-405B-BADC-F1716E191436}</Project>
+      <Name>Matrix.Agent.Directory.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

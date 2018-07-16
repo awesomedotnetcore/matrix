@@ -32,25 +32,26 @@ namespace Matrix.Agent.Journal.Database
                 {
                     await connection.OpenAsync();
 
-                    dynamic entity = await connection.QueryAsync<dynamic>("SELECT [ID], [Enabled], [Timestamp], [Source], [Level], [Event], [Message] FROM [dbo].[Log] WHERE [JournalApplication] = @app AND [Timestamp] >= @from AND [Timestamp] <= @to AND [Message] LIKE '%" + searchTerm + "%'", new { @app = app, @from = from, @to = to });
+                    dynamic entity = await connection.QueryAsync<dynamic>("SELECT [Id], [Application], [Enabled], [Timestamp], [Source], [Level], [Event], [Message] FROM [dbo].[Logs] WHERE [Application] = @app AND [Timestamp] >= @from AND [Timestamp] <= @to AND [Message] LIKE '%" + searchTerm + "%'", new { @app = app, @from = from, @to = to });
 
                     foreach (var i in entity)
                     {
                         var o = new Log();
 
                         o.Id = i.Id;
+                        o.Application = Guid.Parse(i.Application.ToString());
                         o.Enabled = i.Enabled;
                         o.Timestamp = i.Timestamp;
-                        o.Source = await connection.QueryFirstAsync<string>("SELECT [Name] FROM [dbo].[LogSource] WHERE [ID] = @id", new { @id = i.Source });
+                        o.Source = i.Source;
                         o.Level = i.Level;
                         o.Event = i.Event;
                         o.Message = i.Message;
 
-                        foreach (dynamic property in await connection.QueryAsync<dynamic>("SELECT [Name], [Value] FROM [dbo].[JournalLogProperty] WHERE [Log] = @log", new { @log = i.ID }))
-                            o.Properties.Add(property.Name, property.Value);
+                        foreach (dynamic property in await connection.QueryAsync<dynamic>("SELECT [Key], [Value] FROM [dbo].[LogProperty] WHERE [LogEntryId] = @log", new { @log = i.Id }))
+                            o.Properties.Add(property.Key, property.Value);
 
-                        foreach (dynamic property in await connection.QueryAsync<dynamic>("SELECT [Tag] FROM [dbo].[JournalLogTag] WHERE [Log] = @log", new { @log = i.ID }))
-                            o.Tags.Add(property.Tag);
+                        foreach (dynamic tag in await connection.QueryAsync<dynamic>("SELECT [Value] FROM [dbo].[LogTag] WHERE [LogEntryId] = @log", new { @log = i.Id }))
+                            o.Tags.Add(tag.Value);
 
                         result.Add(o);
                     }
@@ -88,25 +89,26 @@ namespace Matrix.Agent.Journal.Database
                 {
                     await connection.OpenAsync();
 
-                    dynamic entity = await connection.QueryAsync<dynamic>("SELECT [ID], [Enabled], [Timestamp], [Source], [Level], [Event], [Message] FROM [dbo].[Log] WHERE [JournalApplication] = @app AND [Timestamp] >= @from AND [Timestamp] <= @to", new { @app = app, @from = from, @to = to });
+                    dynamic entity = await connection.QueryAsync<dynamic>("SELECT [Id], [Application], [Enabled], [Timestamp], [Source], [Level], [Event], [Message] FROM [dbo].[Logs] WHERE [Application] = @app AND [Timestamp] >= @from AND [Timestamp] <= @to", new { @app = app, @from = from, @to = to });
 
                     foreach (var i in entity)
                     {
                         var o = new Log();
 
                         o.Id = i.Id;
+                        o.Application = Guid.Parse(i.Application.ToString());
                         o.Enabled = i.Enabled;
                         o.Timestamp = i.Timestamp;
-                        o.Source = await connection.QueryFirstAsync<string>("SELECT [Name] FROM [dbo].[LogSource] WHERE [ID] = @id", new { @id = i.Source });
+                        o.Source = i.Source;
                         o.Level = i.Level;
                         o.Event = i.Event;
                         o.Message = i.Message;
 
-                        foreach (dynamic property in await connection.QueryAsync<dynamic>("SELECT [Name], [Value] FROM [dbo].[JournalLogProperty] WHERE [Log] = @log", new { @log = i.ID }))
-                            o.Properties.Add(property.Name, property.Value);
+                        foreach (dynamic property in await connection.QueryAsync<dynamic>("SELECT [Key], [Value] FROM [dbo].[LogProperty] WHERE [LogEntryId] = @log", new { @log = i.Id }))
+                            o.Properties.Add(property.Key, property.Value);
 
-                        foreach (dynamic property in await connection.QueryAsync<dynamic>("SELECT [Tag] FROM [dbo].[JournalLogTag] WHERE [Log] = @log", new { @log = i.ID }))
-                            o.Tags.Add(property.Tag);
+                        foreach (dynamic tag in await connection.QueryAsync<dynamic>("SELECT [Value] FROM [dbo].[LogTag] WHERE [LogEntryId] = @log", new { @log = i.Id }))
+                            o.Tags.Add(tag.Value);
 
                         result.Add(o);
                     }
@@ -144,17 +146,12 @@ namespace Matrix.Agent.Journal.Database
                 {
                     await connection.OpenAsync();
 
-                    var sourceId = await connection.QueryFirstOrDefaultAsync<int>("SELECT [ID] FROM [dbo].[LogSource] WHERE [Name] = @source", new { @source = source });
-
-                    if (sourceId.Equals(0))
-                        sourceId = await connection.QueryFirstOrDefaultAsync<int>("INSERT INTO [dbo].[LogSource] ([Enabled], [JournalApplication], [Name]) OUTPUT INSERTED.ID VALUES (@enabled, @app, @name)", new { @enabled = true, @app = app, @name = source });
-
-                    var id = await connection.QueryFirstOrDefaultAsync("INSERT INTO [dbo].[Log] ([Enabled], [JournalApplication], [Timestamp], [Source], [Level], [Event], [Message]) OUTPUT INSERTED.ID VALUES (@enabled, @app, @timestamp, @source, @level, @event, @message)", new
+                    var id = await connection.QueryFirstOrDefaultAsync("INSERT INTO [dbo].[Logs] ([Enabled], [Application], [Timestamp], [Source], [Level], [Event], [Message]) OUTPUT INSERTED.ID VALUES (@enabled, @app, @timestamp, @source, @level, @event, @message)", new
                     {
                         @enabled = enabled,
                         @app = app,
                         @timestamp = timestamp,
-                        @source = sourceId,
+                        @source = source,
                         @level = level,
                         @event = @event,
                         @message = message
@@ -163,13 +160,13 @@ namespace Matrix.Agent.Journal.Database
                     if (properties != null)
                     {
                         foreach (var i in properties)
-                            await connection.ExecuteAsync("INSERT INTO [dbo].[JournalLogProperty] ([Log], [Name], [Value]) VALUES (@log, @name, @value)", new { @log = id, @name = i.Key, @value = i.Value });
+                            await connection.ExecuteAsync("INSERT INTO [dbo].[LogProperty] ([Log], [Key], [Value]) VALUES (@log, @key, @value)", new { @log = id, @key = i.Key, @value = i.Value });
                     }
 
                     if (tags != null)
                     {
                         foreach (var i in tags)
-                            await connection.ExecuteAsync("INSERT INTO [dbo].[JournalLogTag] ([Log], [Tag]) VALUES (@log, @tag", new { @log = id, @tag = i });
+                            await connection.ExecuteAsync("INSERT INTO [dbo].[LogTag] ([Log], [Value]) VALUES (@log, @tag", new { @log = id, @tag = i });
                     }
 
                     result = id != null;
@@ -207,13 +204,13 @@ namespace Matrix.Agent.Journal.Database
                 {
                     await connection.OpenAsync();
 
-                    foreach (var i in await connection.QueryAsync<Guid>("SELECT [ID] FROM [dbo].[Log] WHERE [JournalApplication] = @app AND [Timestamp] >= @from AND [Timestamp] <= @to", new { @app = app, @from = from, @to = to }))
+                    foreach (var i in await connection.QueryAsync<Guid>("SELECT [Id] FROM [dbo].[Logs] WHERE [Application] = @app AND [Timestamp] >= @from AND [Timestamp] <= @to", new { @app = app, @from = from, @to = to }))
                     {
-                        await connection.ExecuteAsync("DELETE FROM [dbo].[JournalLogProperty] WHERE [Log] = @log", new { @log = i });
-                        await connection.ExecuteAsync("DELETE FROM [dbo].[JournalLogTag] WHERE [Log] = @log", new { @log = i });
+                        await connection.ExecuteAsync("DELETE FROM [dbo].[LogProperty] WHERE [LogEntryId] = @log", new { @log = i });
+                        await connection.ExecuteAsync("DELETE FROM [dbo].[LogTag] WHERE [LogEntryId] = @log", new { @log = i });
                     }
 
-                    result = await connection.ExecuteAsync("DELETE FROM [dbo].[Log] WHERE [JournalApplication] = @app AND [Timestamp] >= @from AND [Timestamp] <= @to", new { @app = app, @from = from, @to = to }) > 0;
+                    result = await connection.ExecuteAsync("DELETE FROM [dbo].[Logs] WHERE [Application] = @app AND [Timestamp] >= @from AND [Timestamp] <= @to", new { @app = app, @from = from, @to = to }) > 0;
 
                     connection.Close();
                 }

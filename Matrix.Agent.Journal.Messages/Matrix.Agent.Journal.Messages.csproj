@@ -34,14 +34,25 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Requests\GetLogsRequest.cs" />
+    <Compile Include="Commands\Requests\SearchLogsRequest.cs" />
+    <Compile Include="Commands\Responses\GetLogsResponse.cs" />
+    <Compile Include="Commands\Responses\SearchLogsResponse.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Matrix.Agent.Journal.Model\Matrix.Agent.Journal.Model.csproj">
+      <Project>{241a99f5-147d-40cd-9a18-4b50e8506f77}</Project>
+      <Name>Matrix.Agent.Journal.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Matrix.Agent.Messages\Matrix.Agent.Messages.csproj">
       <Project>{3be9ed63-8bea-4e17-a627-a6885d3142cf}</Project>
       <Name>Matrix.Agent.Messages</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
