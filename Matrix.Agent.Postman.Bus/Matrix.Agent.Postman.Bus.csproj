@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{81FA1FDD-ED35-4BD4-B64C-9553A85732DD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Matrix.Agent.Postman.Bus</RootNamespace>
+    <AssemblyName>Matrix.Agent.Postman.Bus</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EasyNetQ, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EasyNetQ.3.3.0\lib\net451\EasyNetQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Diagnostics.Tracing.EventSource, Version=1.1.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.1.28\lib\net46\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.7\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client, Version=5.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+      <HintPath>..\packages\RabbitMQ.Client.5.1.0\lib\net451\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Handlers\HeartBeatHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RabbitMiddleware.cs" />
+    <Compile Include="Responders\EmailResponder.cs" />
+    <Compile Include="Responders\PhoneResponder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Matrix.Agent.Business\Matrix.Agent.Business.csproj">
+      <Project>{8701DDAE-ACE4-4E8B-B159-35CFD7B4BD4D}</Project>
+      <Name>Matrix.Agent.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Messages\Matrix.Agent.Messages.csproj">
+      <Project>{3BE9ED63-8BEA-4E17-A627-A6885D3142CF}</Project>
+      <Name>Matrix.Agent.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Middlewares\Matrix.Agent.Middlewares.csproj">
+      <Project>{AE4684DC-C491-4BAE-80C2-5998DAF583D8}</Project>
+      <Name>Matrix.Agent.Middlewares</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Postman.Business\Matrix.Agent.Postman.Business.csproj">
+      <Project>{3353b0aa-e9d3-4485-ad29-da9a1bf862cd}</Project>
+      <Name>Matrix.Agent.Postman.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Postman.Database\Matrix.Agent.Postman.Database.csproj">
+      <Project>{6d9028dc-91f3-4cb9-8cfc-ed291c75ea64}</Project>
+      <Name>Matrix.Agent.Postman.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Postman.Messages\Matrix.Agent.Postman.Messages.csproj">
+      <Project>{4f389e27-5bc8-48bc-a72b-1bc8d5e9831c}</Project>
+      <Name>Matrix.Agent.Postman.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix.Agent.Postman.Model\Matrix.Agent.Postman.Model.csproj">
+      <Project>{43ab7abf-cd22-454d-81d3-47c3392a22b6}</Project>
+      <Name>Matrix.Agent.Postman.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matrix\Matrix.csproj">
+      <Project>{417EAF1B-53EC-4D8A-AE92-6370C3DE0AC7}</Project>
+      <Name>Matrix</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

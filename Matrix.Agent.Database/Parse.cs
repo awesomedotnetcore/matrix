@@ -36,5 +36,14 @@ namespace Matrix.Agent.Database
 
             return result;
         }
+
+        public static int Integer(dynamic o)
+        {
+            var result = System.Int32.MinValue;
+
+            System.Int32.TryParse(o.ToString(), out result);
+
+            return result;
+        }
     }
 }
