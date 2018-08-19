@@ -31,7 +31,7 @@ namespace Matrix.Agent.Journal.Database
                 {
                     await connection.OpenAsync();
 
-                    dynamic entity = await connection.QueryAsync<dynamic>("SELECT [Id], [Enabled], [Name], [Description], [Created], [Updated], [Deleted] FROM [JournalApplication]");
+                    dynamic entity = await connection.QueryAsync<dynamic>("SELECT [Id], [Enabled], [Name], [Description], [Created], [Updated], [Deleted] FROM [Applications]");
 
                     foreach (var i in entity)
                     {
@@ -75,7 +75,7 @@ namespace Matrix.Agent.Journal.Database
                 {
                     await connection.OpenAsync();
 
-                    dynamic entity = await connection.QueryFirstAsync<dynamic>("SELECT [Id], [Enabled], [Name], [Description], [Created], [Updated], [Deleted] FROM [JournalApplication] WHERE [Id] = @id", new { @id = id });
+                    dynamic entity = await connection.QueryFirstAsync<dynamic>("SELECT [Id], [Enabled], [Name], [Description], [Created], [Updated], [Deleted] FROM [Applications] WHERE [Id] = @id", new { @id = id });
 
                     if (entity != null)
                         result = ((Guid)entity.ID) == id;
@@ -108,7 +108,7 @@ namespace Matrix.Agent.Journal.Database
                 {
                     await connection.OpenAsync();
 
-                    var inserted = await connection.QueryFirstOrDefaultAsync("INSERT INTO [JournalApplication] ([Id], [Enabled], [Name], [Description], [Created], [Updated], [Deleted]) OUTPUT INSERTED.ID VALUES (@id, @enabled, @name, @description, @created, @updated, @deleted)", new
+                    var inserted = await connection.QueryFirstOrDefaultAsync("INSERT INTO [Applications] ([Id], [Enabled], [Name], [Description], [Created], [Updated], [Deleted]) OUTPUT INSERTED.ID VALUES (@id, @enabled, @name, @description, @created, @updated, @deleted)", new
                     {
                         @id = id,
                         @enabled = true,
@@ -149,7 +149,7 @@ namespace Matrix.Agent.Journal.Database
                 {
                     await connection.OpenAsync();
 
-                    result = await connection.ExecuteAsync("UPDATE [JournalApplication] SET [Name] = @name, [Description] = @description, [Updated] = @updated WHERE [Id] = @id", new
+                    result = await connection.ExecuteAsync("UPDATE [Applications] SET [Name] = @name, [Description] = @description, [Updated] = @updated WHERE [Id] = @id", new
                     {
                         @id = id,
                         @enabled = true,
@@ -186,7 +186,7 @@ namespace Matrix.Agent.Journal.Database
                 {
                     await connection.OpenAsync();
 
-                    result = await connection.ExecuteAsync("DELETE FROM [JournalApplication] WHERE [Id] = @id", new { @id = id }) > 0;
+                    result = await connection.ExecuteAsync("DELETE FROM [Applications] WHERE [Id] = @id", new { @id = id }) > 0;
 
                     connection.Close();
                 }
